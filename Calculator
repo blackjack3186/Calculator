@@ -1,10 +1,14 @@
 import java.util.Scanner;
+
 public class Calculator {
+
     public static void main(String[] args) {
+
         Scanner s = new Scanner(System.in);
         System.out.println("Введите выражение: ");
         String inpt = s.nextLine();
-        System.out.print("Решение: " + inpt);
+        System.out.print("Результат выражения: " + inpt);
+
         String operStr = " ";
         char[] symbol = new char[10];
         char oper = '+';
@@ -30,16 +34,15 @@ public class Calculator {
         int resultArab = 0;
         String[] numbers = inpt.split(operStr);
         if (numbers.length > 2) {
-            System.out.println(" Вы можете использовать не более двух переменных.");
-            return;
+            System.out.println("=? \nОшибка. Вводить можно только две переменные.");
+System.exit(0);
         }
-
         try{
-            num1 = romanNums(numbers[0]);
-            num2 = romanNums(numbers[1]);
+            num1 = romanNumeral(numbers[0]);
+            num2 = romanNumeral(numbers[1]);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(" Давайте попробуем снова. Введите два числа и символ арифместичской операции между ними: +-/*");
-            return;
+            System.out.println("=? \nОшибка. Нужны два числа и значок операции между ними.");
+            System.exit(0);
         }
         if (num1 == 0 | num2 == 0) {
             result = 0;
@@ -47,27 +50,27 @@ public class Calculator {
                 num1 = Integer.parseInt(numbers[0]);
                 num2 = Integer.parseInt(numbers[1]);
                 if (num1 > 10 | num2 > 10 | num1 < 0 | num2 <0) {
-                    System.out.println(" Можно ввести только целое число от 1 до 10 арабскими либо римскими цифрами одновременно.");
+                    System.out.println("=? \nОшибка. Оба числа должны быть в интервале от 1 до 10.");
                     System.exit(0);
                 }
                 resultArab = calculate(num1, num2, oper);
                 System.out.println("=" + resultArab);
             } catch (NumberFormatException e) {
-                System.out.println(" Можно ввести только целое число от 1 до 10 арабскими либо римскими цифрами одновременно.");
+                System.out.println("=? \nОшибка. Нужно вводить или два арабских числа, или два римских.");
             } catch (ArithmeticException e) {
-                System.out.println(" Dev/null error. Вы не можете делить на 0.");
+                System.out.println("=? \nОшибка. Нельзя делить на 0.");
             }
         } else {
             try {
                 result = calculate(num1, num2, oper);
                 if (result == 0) {
-                    System.out.println(" Вы не можете использовать отрицательные значения");
-                    return;
+                    System.out.println("=? \nОшибка. Разрешен только ответ больше нуля.");
+                    System.exit(0);
                 }
                 String resultRom = romanSolution(result);
                 System.out.println("=" + resultRom + " (" + result + ")");
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(" Результатом не может быть отрицательное число");
+                System.out.println("=? \nОшибка. Разрешен только ответ больше нуля.");
             }
         }
     }
@@ -93,7 +96,7 @@ public class Calculator {
         return result;
     }
 
-    public static int romanNums(String roman) {
+    public static int romanNumeral(String roman) {
         if (roman.equals("I")) {
             return 1;
         } else if (roman.equals("II")) {
@@ -135,3 +138,4 @@ public class Calculator {
         return q;
 
     }
+}
