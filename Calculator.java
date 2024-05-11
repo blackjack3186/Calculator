@@ -8,14 +8,17 @@ public class Calculator {
 
         Scanner s = new Scanner(System.in);
         System.out.println("Введите выражение: ");
-        String inpt = s.nextLine();
-        System.out.print("Результат выражения: " + inpt);
+        String input = s.nextLine();
+        String result = calc(input);
+    }
+
+    public static String calc(String input) throws Exception {
 
         String operStr = " ";               // Тут прописаны операнды для действий с выражениями.
         char[] symbol = new char[10];
         char oper = '+';
-        for (int i=1; i < inpt.length(); i++) {
-            symbol[i] = inpt.charAt(i);
+        for (int i=1; i < input.length(); i++) {
+            symbol[i] = input.charAt(i);
             if ( symbol[i] == '+'){
                 oper = '+'; operStr = "\\+";
             }
@@ -35,10 +38,14 @@ public class Calculator {
         int result = 0;
         int resultArab = 0;
 
-        String[] numbers = inpt.split(operStr);//Разделяем
+        String[] numbers = input.split(operStr);//Разделяем
 
         if (numbers.length > 2) {
-            throw new Exception("=? \nОшибка. Вводить можно только два числа в выражении."); //Отбрасываем исключения
+            try {
+                throw new Exception("=? \nОшибка. Вводить можно только два числа в выражении."); //Отбрасываем исключения
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         try{
             num1 = romanNumeral(numbers[0]);
@@ -73,6 +80,7 @@ public class Calculator {
                 throw new Exception("=? \nОшибка. Разрешен только ответ больше нуля.");
             }
         }
+        return operStr;
     }
 
     public static int calculate(int x1, int x2, char op) {
@@ -118,7 +126,15 @@ public class Calculator {
 
     public static String romanSolution(int arabNumeral) {           //здесь мы составляем словарь из массива римских цифр
         String[] romanAll = {"O", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-                "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"
+                "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
+                "XXI", "XXII", "XXIII", "XXIV", "XXV", "XXVI", "XXVII", "XXVIII", "XXIX",
+                "*****", "XXXI", "XXXII", "XXXIII", "XXXIV", "XXXV", "XXXVI", "XXXVII", "XXXVIII",
+                "XXXIX", "XL", "XLI", "XLII", "XLIII", "XLIV", "XLV", "XLVI", "XLVII", "XLVIII",
+                "XLIX", "L", "LI", "LII", "LIII", "LIV", "LV", "LVI", "LVII", "LVIII", "LIX", "LX",
+                "LXI", "LXII", "LXIII", "LXIV", "LXV", "LXVI", "LXVII", "LXVIII", "LXIX", "LXX",
+                "LXXI", "LXXII", "LXXIII", "LXXIV", "LXXV", "LXXVI", "LXXVII", "LXXVIII", "LXXIX",
+                "LXXX", "LXXXI", "LXXXII", "LXXXIII", "LXXXIV", "LXXXV", "LXXXVI", "LXXXVII", "LXXXVIII",
+                "LXXXIX", "XC", "XCI", "XCII", "XCIII", "XCIV", "XCV", "XCVI", "XCVII", "XCVIII", "XCIX", "C"
         };
         return romanAll[arabNumeral];
     }
